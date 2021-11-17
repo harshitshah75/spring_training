@@ -1,0 +1,251 @@
+create table tb_master_agency(A_id serial primary key,A_name varchar(20));
+
+insert into tb_master_agency(A_id,A_name) values(1,'Ethos');
+insert into tb_master_agency(A_id,A_name) values(2,'Bisag');
+insert into tb_master_agency(A_id,A_name) values(3,'Canteen');
+insert into tb_master_agency(A_id,A_name) values(4,'Security');
+insert into tb_master_agency(A_id,A_name) values(5,'Casual_labors');
+update tb_master_agency set A_name = 'Ncog' where a_id = 4;
+
+select * from tb_master_agency;
+
+
+create table tb_master_project(P_id serial primary key,project_name varchar(20),status varchar(20));
+
+insert into tb_master_project(P_id,project_name,status) values(1,'BRO','Done');
+insert into tb_master_project(P_id,project_name,status) values(2,'EMS','Done');
+insert into tb_master_project(P_id,project_name,status) values(3,'BeeHive','Done');
+insert into tb_master_project(P_id,project_name,status) values(4,'Gref','Done');
+insert into tb_master_project(P_id,project_nam e,status) values(5,'Security','Done');
+
+select * from tb_master_project; 
+
+create table tb_master_designation(D_id serial primary key,e_designation varchar(20));
+
+insert into tb_master_designation(D_id,e_designation) values(1,'Project_leader');
+insert into tb_master_designation(D_id,e_designation) values(2,'senior_devloper');
+insert into tb_master_designation(D_id,e_designation) values(3,'software_developer');
+insert into tb_master_designation(D_id,e_designation) values(4,'Tester');
+insert into tb_master_designation(D_id,e_designation) values(5,'Network');
+
+select * from tb_master_designation;
+
+create table tb_master_quali(Q_id serial primary key,Branch varchar(20),qualification varchar(20));
+
+insert into tb_master_quali(Q_id,Branch,qualification)values(1,'CE','Mtech');
+insert into tb_master_quali(Q_id,Branch,qualification)values(2,'IT','Btech');
+insert into tb_master_quali(Q_id,Branch,qualification)values(3,'EC','BE');
+insert into tb_master_quali(Q_id,Branch,qualification)values(4,'CE','ME');
+insert into tb_master_quali(Q_id,Branch,qualification)values(5,'IT','MCA');
+select * from tb_master_quali;
+
+create table tb_master_lab(L_id serial primary key,lab int,lab_name varchar(20));
+
+insert into tb_master_lab(L_id,lab,lab_name) values(1,1,'Testing');
+insert into tb_master_lab(L_id,lab,lab_name) values(2,3,'Software');
+insert into tb_master_lab(L_id,lab,lab_name) values(3,4,'Admin');
+insert into tb_master_lab(L_id,lab,lab_name) values(4,6,'Developing');
+insert into tb_master_lab(L_id,lab,lab_name) values(5,7,'GIS');
+
+select * from tb_master_lab;
+
+
+create table tb_master_leave(Leave_id serial primary key,leave_type varchar(20),reason varchar(20),days int,no_of_leave int)
+
+
+create table tb_master_emp_city(loc_id serial primary key,city varchar(20),e_state varchar(20),pincode int);
+insert into tb_master_emp_city(loc_id,city,e_state,pincode)values(1,'Ahmedabad','Gujarat',23212);
+insert into tb_master_emp_city(loc_id,city,e_state,pincode)values(2,'Gandhinagar','Gujarat',43212);
+insert into tb_master_emp_city(loc_id,city,e_state,pincode)values(3,'Surat','Gujarat',53212);
+insert into tb_master_emp_city(loc_id,city,e_state,pincode)values(4,'Jamnagar','Gujarat',63212);
+insert into tb_master_emp_city(loc_id,city,e_state,pincode)values(5,'Vadodara','Gujarat',73212);
+
+select * from tb_master_emp_city; 
+
+create table current_project(c_id serial primary key,p_id int references tb_master_project(P_id));
+
+ALTER TABLE current_project
+ADD COLUMN c_p_id int references emp(e_id);
+
+insert into current_project(c_id,p_id,c_p_id)values(1,1,1);
+insert into current_project(c_id,p_id,c_p_id)values(2,1,2);
+insert into current_project(c_id,p_id,c_p_id)values(3,2,1);
+insert into current_project(c_id,p_id,c_p_id)values(4,3,3);
+insert into current_project(c_id,p_id,c_p_id)values(5,4,2);
+
+select * from current_project;
+
+create table emp(E_id serial primary key,e_name varchar(20),a_id int references tb_master_agency(A_id),p_id int references tb_master_project(p_id),d_id int references tb_master_designation(D_id),
+				q_id int references tb_master_quali(Q_id),l_id int references tb_master_lab(L_id),c_id int references tb_master_emp_city(loc_id),c_location varchar(20),e_joindate date,E_age int,e_gender varchar(20),e_dob date,e_salary int)
+
+
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(1,'HArshit',1,1,1,1,1,1,'Gadhinagar','2018-01-20',22,'Male','2000-10-12',20000);
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(2,'Ronit',3,3,4,2,2,3,'Gadhinagar','2019-03-30',22,'Male','2001-11-12',40000);
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(3,'Urmik',5,2,4,4,3,3,'Ahmedabad','2021-06-11',22,'Male','1990-04-22',10000);
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(4,'ANo',1,2,2,2,3,5,'Surat','2020-09-16',22,'Male','2003-07-01',15000);
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(5,'LEON',1,1,4,3,2,2,'Baroda','2019-10-21',22,'Male','2001-08-20',30000);
+insert into emp(E_id,e_name,a_id,p_id,d_id,q_id,l_id,c_id,c_location,e_joindate,E_age,e_gender,e_dob,e_salary) values(6,'Kera',1,1,4,5,2,2,'Baroda','2011-01-20',32,'FeMale','2005-01-20',25000);
+update emp set a_id=4 where e_id = 4;
+
+select * from emp;
+
+
+
+
+-- 1.	List of the employees who are working on BRO Recruitment project.
+
+select emp.e_name,tb_master_project.project_name,tb_master_agency.a_name from emp 
+inner join tb_master_project on tb_master_project.p_id = emp.P_id 
+inner join tb_master_agency on emp.a_id = tb_master_agency.A_id 
+where tb_master_project.project_name = 'BRO';
+
+-- 2.	List of the employees who are not working on EME Project.
+
+select emp.e_id,emp.e_name,tb_master_project.project_name from emp 
+inner join tb_master_project on emp.p_id = tb_master_project.p_id
+where tb_master_project.project_name != 'EMS';
+
+-- 3.	List of the employees whose experience is more or equal to 2 years in descending order.
+
+select e_id,e_name,age(e_joindate,current_date)as experience from emp order by e_joindate desc;
+
+where age(e_joindate,current_date)as experience < 2;
+
+-- 4.	List of the employees whose salary is less than 20,000 Rs.
+
+select e_id,e_name,e_salary from emp where e_salary < 20000;
+
+-- 5.	List of the employees whose salary is more than 20,000 Rs.
+
+select e_id,e_name,e_salary from emp where e_salary < 20000;
+
+-- 6.	List of the employees whose salary in between of 10,000 to 50,000 Rs. 
+
+select e_id,e_name,e_salary from emp where e_salary between 10000 and 20000;
+
+-- 7.	List the employee who has minimum salary.
+
+select e_id,e_name,e_salary from emp where e_salary in (select min(e_salary) from emp);
+
+-- 8.	.List the employee who has maximum salary.
+
+select e_id,e_name,e_salary from emp where e_salary in (select max(e_salary) from emp);
+
+-- 9.	Total salary of all employees and average salary of each employee
+
+select e_id,e_name,avg(e_salary)as e_avg from emp group by e_id,e_name;
+
+-- 10.	List of the employees who are working on diff. project to be mention project name in ascending order and employees name in descending order.
+
+select emp.e_id,emp.e_name,tb_master_project.project_name from emp inner join 
+tb_master_project on tb_master_project.p_id = emp.p_id  order by emp.e_name desc,tb_master_project.project_name asc;
+
+-- 11.	 List of the employees who joined in the month of July.
+
+SELECT e_id,e_name,e_joindate FROM emp WHERE EXTRACT('month' from e_joindate) = 7;
+
+-- 12.	List of the employees who joined in the year of 2018.
+
+SELECT e_id,e_name,e_joindate FROM emp WHERE EXTRACT('year' from e_joindate) = 2018;
+
+-- 13.	List of the employees who are resident of Gandhinagar.
+
+select emp.e_id,emp.e_name,tb_master_emp_city.city from emp inner join tb_master_emp_city on emp.c_id = tb_master_emp_city.loc_id;
+
+-- 14.	List of the employees who up down from different cities to Gandhinagar. (mention cities name)
+
+select emp.e_id,emp.e_name,tb_master_emp_city.city,emp.c_location from emp inner join tb_master_emp_city on emp.c_id = tb_master_emp_city.loc_id where emp.c_location = 'Gadhinagar';
+
+-- 15.	No. of Employees based on their technical Qualification(Graduate/Post Graduate) 
+
+select count(emp.e_name),tb_master_quali.Branch from emp inner join tb_master_quali on emp.q_id =tb_master_quali.q_id group by tb_master_quali.Branch;
+
+-- 16.	The Number of employees in each project where less than 5 number of employees.
+
+select count(emp.e_id),tb_master_project.project_name from emp inner join tb_master_project on tb_master_project.p_id = emp.p_id group by tb_master_project.project_name having count(e_id) < 5;
+
+-- 17.	List the Team Leader name, Project Name and numbers of employees working for those team leaders in ascending order on team leader ID. 
+
+select emp.e_name,count(emp.e_id),tb_master_project.project_name,tb_master_designation.e_designation from tb_master_project inner join tb_master_designation on tb_master_project.p_id = tb_master_designation.d_id
+inner join emp on emp.e_id = tb_master_project.p_id
+where tb_master_designation.e_designation='Project_leader' group by emp.e_id,tb_master_project.project_name,tb_master_designation.e_designation,tb_master_project.p_id order by tb_master_project.p_id asc;
+
+-- 18.	List of the employees whose name having more or equal to six characters limit to 5 employees.
+
+select e_id,e_name  from emp where length(e_name) >= 6 limit 5;
+
+-- 19.	List of the employees whose name start with ‘M’ and with 5 Characters in their name. 
+
+select * from emp where e_name like 'j%' and length(e_name) = 3;
+
+-- 20.	List of the employees whose name having 5 Characters in name, 2nd Character must be ‘I’ and end character to be ‘L’.
+
+select * from emp where e_name like '_I%' and length(e_name) = 3;
+
+select * from emp where e_name like '_o_' and length(e_name) = 3;
+
+-- 21.      List all the employees with thier Designation as a team lead/Senior developer in Ascending Order.
+
+
+select emp.e_name,tb_master_designation.e_designation from  emp inner join  tb_master_designation on tb_master_designation.d_id = emp.d_id
+where tb_master_designation.e_designation = 'Project_leader' or  tb_master_designation.e_designation = 'senior_devloper'
+group by  tb_master_designation.e_designation,e_name order by tb_master_designation.e_designation asc;
+
+-- 22.      List all the Detail of employees like Age, Salary, Experience who is from Ethos and Ncog and  having experience more than one year.
+
+select emp.e_id,emp.e_name,emp.e_age,Age(emp.e_joindate,current_date) as experience,tb_master_agency.A_name 
+from emp inner join tb_master_agency on tb_master_agency.A_id = emp.A_id
+where tb_master_agency.A_name = 'Ethos' or tb_master_agency.A_name = 'Ncog';
+
+-- 23.      List all the Employees whose Name Start with (A,M,K,P) and end with (N,L,H) in Descending Order.
+
+select e_id,e_name from emp where e_name like 'J%' or e_name like 'E%' 
+															or e_name like 'W%' 
+															and e_name like '%n' 
+															and e_name like '%n' 
+															and e_name like '%n';
+
+-- 24.    Find the number of counts of Employees in all Projects(Project wise count of employees).
+
+select project_name, count(tb_master_project.project_name) from emp inner join tb_master_project on emp.p_id = tb_master_project.p_id 
+group by tb_master_project.project_name;
+
+
+-- 25.   Write a SQL query to fetch Details Project Name,Employee name whose Designation is Team Leaders and counts of Employee under them.
+-- select tb_master_project.project_name,
+
+select tb_master_project.project_name,emp.e_name,tb_master_designation.e_designation,count(emp.e_id) from emp 
+inner join tb_master_project on emp.p_id = tb_master_project.p_id 
+inner join tb_master_designation on tb_master_designation.d_id = emp.d_id where tb_master_designation.e_designation = 'Project_leader'
+group by tb_master_designation.e_designation,tb_master_project.project_name,emp.e_name;
+
+
+-- 26. Find the details of the Team Leaders like his/her Name ,Age, organization, designation,  salary, Experience  and also they have more than one project.
+
+
+select tb_master_project.project_name,emp.e_age,emp.e_salary,age(e_joindate,current_date)as experience,tb_master_designation.e_designation,tb_master_agency.A_name from emp
+inner join tb_master_project on tb_master_project.p_id = emp.p_id 
+inner join tb_master_designation on tb_master_designation.d_id = emp.d_id 
+inner join tb_master_agency on tb_master_agency.A_id = emp.A_id 
+group by  age(e_joindate,current_date),tb_master_project.project_name,emp.e_age,emp.e_salary,tb_master_designation.e_designation,tb_master_agency.A_name;
+
+
+-- 27.    Write a query to fetch details of all employees excluding the employees who have less than one year of Experience.
+
+select emp.e_id,emp.e_name,age(e_joindate,current_date) as experience from emp where e_joindate in (select e_joindate from emp );
+
+-- 28.   Write a query to fetch details of  5 Highest Experience having qualification in M.Tech/MCA and age should be greater than 25.
+-- (Use Limit).
+
+select tb_master_quali.qualification,emp.e_age,AGE(e_joindate,current_date)as experience  from tb_master_quali inner join emp on tb_master_quali.q_id = emp.q_id
+where tb_master_quali.qualification = 'Mtech' or tb_master_quali.qualification = 'MCA' and e_age > 25 order by e_joindate desc limit 5;
+
+
+-- 29.  Write a query to fetch details Project wise  like this for all Projects w.r.t the Number of Employees with 
+-- their Highest Qualification and also include Security and Casual labors as a Other in Project Name.
+
+
+
+
+
+
